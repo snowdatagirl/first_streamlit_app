@@ -38,7 +38,18 @@ try:
    
     fruit_choice = streamlit.text_input('What fruit would you like information about?')
 
+    if not fruit_choice:
+        streamlit.error("Please select a fruit to get information.")
 
+
+      
+      
+    else:
+
+         
+        back_from_function=get_fruityvice_data(fruit_choice)
+        
+        streamlit.dataframe(back_from_function)
          
          
 except URLError as e:
@@ -47,42 +58,15 @@ except URLError as e:
 streamlit.stop()
 #import snowflake.connector
 
-
-#my_cur = my_cnx.cursor()
-#my_cur.execute("SELECT * from fruit_load_list")
-#my_data_rows = my_cur.fetchall()
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur = my_cnx.cursor()
+my_cur.execute("SELECT * from fruit_load_list")
+my_data_rows = my_cur.fetchall()
 streamlit.header("The fruit load list contains:")
-#snowflake function
-def get_fruit_load_list():
-    with my_cnx.cursor() as my_cur:
-         my_cur.execute("select * from fruit_load_list")
-         return my_cur.fetchall()
-   #add button
+streamlit.dataframe(my_data_rows)
 
 
-
-fruit_choice = streamlit.text_input('What fruit would you like to add ?',['Jackfruit'], ['kiwi'], ['papaya'], ['guava'])
-my_cur.execute("insert into fruit_load_list values('"+fruit_choice+"')")
+fruit_choice = streamlit.text_input('What fruit would you like to add ?','Jackfruit')
 streamlit.write('Thanks for adding ', fruit_choice)
-def insert_row_snowflake(new_fruit):
-   
-   
-   with my_cnx.cursor() as my_cur:
-      
-      my_cur.execute("insert into fruit_load_list values('"+fruit_choice+"')")
-      
-      return "thanks for adding"+new_fruit
-   
 
-if streamlit.button('get fruit list'):
-   
-   my_cnx=snowflake.connector.connect(**streamlit.secrets["snowflake"])
-   
-   my_data_row= get_fruit_load_list()
-   
-   my_cnx.close()
-   
-   streamlit.dataframe(my_data_rows)
-
-   my_cur.execute("insert into fruit_load_list values('"+['Jackfruit'], ['kiwi'], ['papaya'], ['guava']+"')")
-   
+my_cur.execute("insert into fruit_load_list values('from streamlit')")
