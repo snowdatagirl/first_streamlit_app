@@ -89,8 +89,12 @@ def insert_row_snowflake(new_fruit):
    
 
 if streamlit.button('get fruit list'):
-my cnx=snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_data_row= get_fruit_load_list()
-my_cnx.close()
-streamlit.dataframe(my_data_rows)
+   
+   my cnx=snowflake.connector.connect(**streamlit.secrets["snowflake"])
+   
+   my_data_row= get_fruit_load_list()
+   
+   my_cnx.close()
+   
+   streamlit.dataframe(my_data_rows)
 
