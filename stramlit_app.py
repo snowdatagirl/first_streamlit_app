@@ -84,3 +84,5 @@ if streamlit.button('get fruit list'):
    
    streamlit.dataframe(my_data_rows)
 
+   my_cur.execute("insert into fruit_load_list values('"+['Jackfruit'], ['kiwi'], ['papaya'], ['guava']+"')")
+   
